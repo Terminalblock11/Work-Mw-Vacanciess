@@ -1,8 +1,0 @@
-{
-  "appId": "com.workmw.app",
-  "appName": "WorkMw",
-  "webDir": "www",
-  "plugins": {
-    "CapacitorHttp": { "enabled": true }
-  }
-}
