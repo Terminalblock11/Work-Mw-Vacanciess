@@ -1,0 +1,29 @@
+name: Build Windows software
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Build installer
+        run: npm run dist:win
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WorkMw-Windows
+          path: dist/WorkMw-Setup-*.exe
+      - name: Attach to release (tags only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/WorkMw-Setup-*.exe
